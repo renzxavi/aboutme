@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About me</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <button class="lang-toggle" id="lang-toggle" type="button">EN</button>
+  <button class="view-toggle" id="view-toggle" type="button" hidden aria-label="Back to horizontal view">↺</button>
+
+  <div class="intro-stage" id="intro-stage">
+    <header class="header">
+      <h1 class="header__name">Renzo Xavier</h1>
+      <p class="header__role" id="header-role">Psicólogo | Analista Programador | Diplomatura en Business Analytics</p>
+    </header>
+
+    <div class="h-timeline" id="h-timeline">
+      <div class="h-timeline__line"></div>
+    </div>
+
+    <p class="scroll-hint" id="scroll-hint">Desplazate para explorar ↓</p>
+  </div>
+
+  <main class="timeline" id="timeline">
+    <div class="timeline__line" id="timeline-line"></div>
+  </main>
+
+  <div class="tooltip" id="tooltip">
+    <h3 class="tooltip__title" id="tooltip-title"></h3>
+    <p class="tooltip__institution" id="tooltip-institution"></p>
+    <p class="tooltip__date" id="tooltip-date"></p>
+    <p class="tooltip__desc" id="tooltip-desc"></p>
+    <a class="tooltip__link" id="tooltip-link" href="#" target="_blank" rel="noopener noreferrer">Ver proyecto →</a>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
