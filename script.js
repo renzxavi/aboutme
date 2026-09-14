@@ -1,8 +1,6 @@
 (function () {
-  const introStage = document.getElementById("intro-stage");
   const hTimeline = document.getElementById("h-timeline");
-  const timeline = document.getElementById("timeline");
-  const lineEl = document.getElementById("timeline-line");
+  const hMedia = document.getElementById("h-media");
   const tooltip = document.getElementById("tooltip");
   const tooltipTitle = document.getElementById("tooltip-title");
   const tooltipInstitution = document.getElementById("tooltip-institution");
@@ -10,12 +8,10 @@
   const tooltipDesc = document.getElementById("tooltip-desc");
   const tooltipLink = document.getElementById("tooltip-link");
   const headerRole = document.getElementById("header-role");
-  const scrollHint = document.getElementById("scroll-hint");
   const langToggle = document.getElementById("lang-toggle");
-  const viewToggle = document.getElementById("view-toggle");
-
-  const TOP_PADDING = 60;
-  const BOTTOM_PADDING = 60;
+  const lightbox = document.getElementById("lightbox");
+  const lightboxContent = document.getElementById("lightbox-content");
+  const lightboxClose = document.getElementById("lightbox-close");
 
   let currentLang = "en";
   try {
@@ -36,10 +32,6 @@
   function formatDate(str) {
     const [year, month] = str.split("-").map(Number);
     return `${UI_TEXT[currentLang].months[month - 1]}. ${year}`;
-  }
-
-  function pxPerYear() {
-    return window.innerWidth <= 520 ? 200 : 260;
   }
 
   // EDUCATION admite año simple (2021) o "AAAA-MM" (2021-11) para
@@ -171,6 +163,79 @@
     return dot;
   }
 
+  function getYouTubeId(url) {
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  function openLightbox(item) {
+    lightboxContent.innerHTML = "";
+    const ytId = item.video ? getYouTubeId(item.video) : null;
+
+    if (ytId) {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube.com/embed/${ytId}`;
+      iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+      iframe.setAttribute("allowfullscreen", "");
+      iframe.loading = "lazy";
+      lightboxContent.appendChild(iframe);
+    } else if (item.image) {
+      const img = document.createElement("img");
+      img.src = item.image;
+      img.alt = item.title;
+      lightboxContent.appendChild(img);
+    }
+
+    if (item.video && !ytId) {
+      const link = document.createElement("a");
+      link.href = item.video;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.className = "lightbox__video-link";
+      link.textContent = UI_TEXT[currentLang].watchVideo;
+      lightboxContent.appendChild(link);
+    }
+
+    lightbox.classList.add("is-visible");
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("is-visible");
+    lightboxContent.innerHTML = "";
+  }
+
+  lightboxClose.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLightbox();
+  });
+
+  function createMediaSquare(container, item) {
+    const square = document.createElement("button");
+    square.type = "button";
+    square.className = item.video ? "h-media__item h-media__item--video" : "h-media__item";
+    square.setAttribute("aria-label", item.title);
+
+    if (item.image) {
+      square.style.backgroundImage = `url("${item.image}")`;
+    } else if (item.video) {
+      const ytId = getYouTubeId(item.video);
+      if (ytId) {
+        square.style.backgroundImage = `url("https://img.youtube.com/vi/${ytId}/mqdefault.jpg")`;
+      }
+    }
+
+    square.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openLightbox(item);
+    });
+
+    container.appendChild(square);
+    return square;
+  }
+
   function dotItems() {
     const projectItems = PROJECTS
       .slice()
@@ -185,7 +250,9 @@
             institution: project.institution,
             dateLabel: formatDate(project.date),
             description: text.description,
-            url: project.url
+            url: project.url,
+            image: project.image || null,
+            video: project.video || null
           }
         };
       });
@@ -214,7 +281,13 @@
         return {
           fraction: parseDate(collab.date),
           extraClass: "timeline__dot--collab",
-          item: { title: text.title, description: text.description, url: collab.url }
+          item: {
+            title: text.title,
+            description: text.description,
+            url: collab.url,
+            image: collab.image || null,
+            video: collab.video || null
+          }
         };
       });
 
@@ -239,90 +312,11 @@
     return projectEntries.concat(eduEntries).sort((a, b) => a.start - b.start);
   }
 
-  function build() {
-    timeline.querySelectorAll(
-      ".timeline__tick, .timeline__year-label, .timeline__dot, .timeline__now-label, .timeline__duration-connector, .timeline__duration-bar, .timeline__duration-cap"
-    ).forEach((el) => el.remove());
-
-    const { nowYearFraction, startFraction, endFraction } = timelineRange();
-    const ppy = pxPerYear();
-
-    const totalHeight = (endFraction - startFraction) * ppy + TOP_PADDING + BOTTOM_PADDING;
-    timeline.style.height = `${totalHeight}px`;
-    lineEl.style.top = `${TOP_PADDING}px`;
-    lineEl.style.height = `${totalHeight - TOP_PADDING - BOTTOM_PADDING}px`;
-
-    function yFor(fraction) {
-      return TOP_PADDING + (fraction - startFraction) * ppy;
-    }
-
-    const startYear = Math.floor(startFraction);
-    const endYear = Math.floor(endFraction);
-    for (let year = startYear; year <= endYear; year++) {
-      const y = yFor(year);
-
-      const tick = document.createElement("div");
-      tick.className = "timeline__tick";
-      tick.style.top = `${y}px`;
-      timeline.appendChild(tick);
-
-      const label = document.createElement("div");
-      label.className = "timeline__year-label";
-      label.style.top = `${y}px`;
-      label.textContent = year;
-      timeline.appendChild(label);
-    }
-
-    const nowLabel = document.createElement("div");
-    nowLabel.className = "timeline__now-label";
-    nowLabel.style.top = `${yFor(nowYearFraction)}px`;
-    nowLabel.textContent = UI_TEXT[currentLang].now;
-    timeline.appendChild(nowLabel);
-
-    const LANE_STEP = 16;
-    durationEntries()
-      .forEach((entry, index) => {
-        const startY = yFor(entry.start);
-        const endFractionForBar = entry.end !== null ? entry.end : nowYearFraction;
-        const endY = yFor(endFractionForBar);
-        if (endY <= startY) return;
-
-        const offset = LANE_STEP * (index + 1);
-        const modifier = entry.isEducation ? " timeline__duration-connector--education" : "";
-        const modifierBar = entry.isEducation ? " timeline__duration-bar--education" : "";
-        const modifierCap = entry.isEducation ? " timeline__duration-cap--education" : "";
-
-        const connector = document.createElement("div");
-        connector.className = "timeline__duration-connector" + modifier;
-        connector.style.top = `${startY}px`;
-        connector.style.left = `calc(50% - ${offset}px)`;
-        connector.style.width = `${offset}px`;
-        timeline.appendChild(connector);
-
-        const bar = document.createElement("div");
-        bar.className = "timeline__duration-bar" + modifierBar;
-        bar.style.left = `calc(50% - ${offset}px)`;
-        bar.style.top = `${startY}px`;
-        bar.style.height = `${endY - startY}px`;
-        timeline.appendChild(bar);
-
-        const cap = document.createElement("div");
-        cap.className = "timeline__duration-cap" + modifierCap;
-        cap.style.left = `calc(50% - ${offset}px)`;
-        cap.style.top = `${endY}px`;
-        timeline.appendChild(cap);
-      });
-
-    dotItems().forEach(({ fraction, extraClass, item }) => {
-      const dot = createDot(timeline, extraClass, item);
-      dot.style.top = `${yFor(fraction)}px`;
-    });
-  }
-
   function buildHorizontal() {
     hTimeline.querySelectorAll(
       ".h-tick, .h-year-label, .timeline__dot, .h-duration-connector, .h-duration-bar, .h-duration-cap, .h-now-label"
     ).forEach((el) => el.remove());
+    hMedia.innerHTML = "";
 
     const { nowYearFraction, startFraction, endFraction } = timelineRange();
     const padding = 18;
@@ -394,6 +388,19 @@
       const dot = createDot(hTimeline, extraClass, item);
       dot.style.top = "50%";
       dot.style.left = `${xFor(fraction)}px`;
+
+      if (item.image || item.video) {
+        const square = createMediaSquare(hMedia, item);
+        square.style.left = `${xFor(fraction)}px`;
+        dot.addEventListener("mouseenter", () => square.classList.add("is-linked"));
+        dot.addEventListener("mouseleave", () => square.classList.remove("is-linked"));
+        square.addEventListener("mouseenter", () => {
+          if (!pinned) showTooltip(item, dot);
+        });
+        square.addEventListener("mouseleave", () => {
+          if (!pinned) hideTooltip();
+        });
+      }
     });
   }
 
@@ -408,99 +415,13 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       hideTooltip();
-      build();
-      if (!expanded) buildHorizontal();
+      buildHorizontal();
     }, 150);
   });
-
-
-  let expanded = false;
-  let expandTimer = null;
-
-  function expand() {
-    if (expanded) return;
-    expanded = true;
-
-    introStage.classList.add("is-leaving");
-    timeline.classList.add("is-visible");
-
-    window.removeEventListener("wheel", onWheel);
-    window.removeEventListener("touchstart", onTouchStart);
-    window.removeEventListener("touchmove", onTouchMove);
-    window.removeEventListener("keydown", onKeydown);
-
-    expandTimer = setTimeout(() => {
-      introStage.classList.add("is-static");
-      hTimeline.style.display = "none";
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-      viewToggle.hidden = false;
-    }, 480);
-  }
-
-  function collapse() {
-    if (!expanded) return;
-    expanded = false;
-    clearTimeout(expandTimer);
-    hideTooltip();
-
-    viewToggle.hidden = true;
-    introStage.classList.remove("is-static", "is-leaving");
-    timeline.classList.remove("is-visible");
-    hTimeline.style.display = "";
-    buildHorizontal();
-
-    window.scrollTo(0, 0);
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("keydown", onKeydown);
-  }
-
-  viewToggle.addEventListener("click", collapse);
-
-  function onWheel(e) {
-    e.preventDefault();
-    expand();
-  }
-
-  let touchStartY = null;
-  function onTouchStart(e) {
-    touchStartY = e.touches[0].clientY;
-  }
-  function onTouchMove(e) {
-    if (touchStartY === null) return;
-    const currentY = e.touches[0].clientY;
-    if (Math.abs(touchStartY - currentY) > 12) {
-      e.preventDefault();
-      expand();
-    }
-  }
-
-  function onKeydown(e) {
-    if (["ArrowDown", "PageDown", "End", "Enter", " "].includes(e.key)) {
-      expand();
-    }
-  }
-
-  function startIntro() {
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("keydown", onKeydown);
-  }
-
 
   function applyLanguage() {
     document.documentElement.lang = currentLang;
     headerRole.textContent = UI_TEXT[currentLang].role;
-    scrollHint.textContent = UI_TEXT[currentLang].scrollHint;
     langToggle.textContent = currentLang === "es" ? "EN" : "ES";
     langToggle.setAttribute(
       "aria-label",
@@ -508,8 +429,7 @@
     );
 
     hideTooltip();
-    build();
-    if (!expanded) buildHorizontal();
+    buildHorizontal();
   }
 
   langToggle.addEventListener("click", () => {
@@ -522,5 +442,4 @@
   });
 
   applyLanguage();
-  startIntro();
 })();

@@ -5,14 +5,14 @@ const START_YEAR = 2021;
 const UI_TEXT = {
   es: {
     role: "Psicólogo | Analista Programador | Diplomatura en Business Analytics",
-    scrollHint: "Desplazate para explorar ↓",
     now: "hoy",
+    watchVideo: "Ver video →",
     months: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
   },
   en: {
     role: "Psychologist | Software Developer | Diploma in Business Analytics",
-    scrollHint: "Scroll to explore ↓",
     now: "today",
+    watchVideo: "Watch video →",
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   }
 };
@@ -59,6 +59,7 @@ const PROJECTS = [
     date: "2023-03",
     //endDate: "2024-03",
     institution: "Colegio Parroquial Santa Cruz",
+    image: "images/mi-foto.jpg", 
     url: "https://www.colegioparroquialsantacruz.com/",
     es: {
       title: "Talleres Educativos",
