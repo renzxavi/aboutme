@@ -6,13 +6,11 @@ const UI_TEXT = {
   es: {
     role: "Psicólogo | Analista Programador | Diplomatura en Business Analytics",
     now: "hoy",
-    watchVideo: "Ver video →",
     months: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
   },
   en: {
     role: "Psychologist | Software Developer | Diploma in Business Analytics",
     now: "today",
-    watchVideo: "Watch video →",
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   }
 };
@@ -59,28 +57,29 @@ const PROJECTS = [
     date: "2023-03",
     //endDate: "2024-03",
     institution: "Colegio Parroquial Santa Cruz",
-    image: "images/mi-foto.jpg", 
+    images: ["assets/cpsc1.png", "assets/cpsc2.png", "assets/cpsc3.png"],
     url: "https://www.colegioparroquialsantacruz.com/",
     es: {
       title: "Talleres Educativos",
-      description: "Diseñar, organizar e impartir talleres de informática y robótica inicial para niños de primero a sexto año de escuela. Además de gestionar y realizar contenido para la plataforma web."
+      description: "Diseño, organizo e imparto talleres de Informática y Robótica Inicial dirigidos a estudiantes de primero a sexto año de Educación Primaria. Planifico actividades prácticas y educativas orientadas al desarrollo del pensamiento computacional, la creatividad y el uso responsable de la tecnología como herramienta de aprendizaje. Además, desarrollé una plataforma web para gestionar los talleres y centralizar el contenido educativo, facilitando el acceso de los estudiantes al material de estudio y fortaleciendo el proceso de aprendizaje. La plataforma permite reducir el uso de fotocopias, minimizar la pérdida de trabajos y promover una mayor integración de la tecnología en el ámbito educativo."
     },
     en: {
       title: "Educational Workshops",
-      description: "Designed, organized and delivered computer science and introductory robotics workshops for children from 1st to 6th grade. Also managed and produced content for the school's website."
+      description: "I design, organize, and deliver introductory Computer Science and Robotics workshops for students from first to sixth grade of primary school. I plan practical and educational activities focused on developing computational thinking, creativity, and the responsible use of technology as a learning tool. In addition, I developed a web platform to manage the workshops and centralize educational content, making learning materials more accessible to students and supporting the learning process. The platform helps reduce the use of printed materials, minimize the loss of assignments, and promote the integration of technology into the educational environment."
     }
   },
   {
     date: "2025-03",
     institution: "Assessmas (startup)",
+    images: ["assets/assessmas1.png", "assets/assessmas2.png", "assets/assessmas3.png"],
     url: null,
     es: {
       title: "Analista de Datos",
-      description: "Extraer y analizar datos, optimizando su recolección, procesamiento y visualización para facilitar la toma de decisiones en el ámbito empresarial mediante soluciones de software."
+      description: "Desarrollo de procesos de extracción, transformación, limpieza y análisis de datos empresariales, aplicando técnicas de Big Data, Inteligencia Artificial y Machine Learning. Procesamiento de grandes volúmenes de información, construcción y evaluación de modelos predictivos, identificación de patrones y generación de insights para apoyar la toma de decisiones basada en datos."
     },
     en: {
       title: "Data Analyst",
-      description: "Extract and analyze data, optimizing its collection, processing and visualization to support business decision-making through software solutions."
+      description: "Developed data extraction, transformation, cleaning, and analysis processes using Machine Learning, Artificial Intelligence, and Big Data technologies. Processed and analyzed large datasets from multiple companies to identify patterns, generate actionable insights, and support data-driven decision-making."
     }
   },
   {
@@ -103,13 +102,15 @@ const COLLABORATIONS = [
   {
     date: "2026-01",
     url: "https://paintingcreatures-a11y.github.io/200mates/",
+    video: "assets/paintingcreatures-a11y.github.io-200mates.mp4",
+    images: ["assets/mates2001.png", "assets/mates2002.png", "assets/mates2003.png"],
     es: {
       title: "200mates",
-      description: "Proyecto colaborativo que nace del deseo de visibilizar una tradición profundamente arraigada en el sur de América del Sur: el mate."
+      description: "Proyecto colaborativo desarrollado entre un grupo de amigos con diferentes intereses, conocimientos y perfiles, donde combinamos creatividad, diseño, programación, pruebas y análisis para convertir una idea relacionada con nuestra cultura."
     },
     en: {
       title: "200mates",
-      description: "A collaborative project born from the desire to showcase a deeply rooted tradition in South America: mate."
+      description: "Collaborative project developed by a group of friends with diverse interests, knowledge, and backgrounds, where we combined creativity, design, programming, testing, and analysis to bring an idea related to our culture to life."
     }
   }
 ];
