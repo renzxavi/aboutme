@@ -57,7 +57,7 @@ const PROJECTS = [
     date: "2023-03",
     //endDate: "2024-03",
     institution: "Colegio Parroquial Santa Cruz",
-    images: ["assets/cpsc1.png", "assets/cpsc2.png", "assets/cpsc3.png"],
+    images: ["assets/cpsc1.png", "assets/cpsc3.png"],
     url: "https://www.colegioparroquialsantacruz.com/",
     es: {
       title: "Talleres Educativos",
@@ -71,7 +71,7 @@ const PROJECTS = [
   {
     date: "2025-03",
     institution: "Assessmas (startup)",
-    images: ["assets/assessmas1.png", "assets/assessmas2.png", "assets/assessmas3.png"],
+    images: ["assets/assessmas1.png", "assets/assessmas2.png"],
     url: null,
     es: {
       title: "Analista de Datos",
