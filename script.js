@@ -88,6 +88,25 @@
       tooltipLink.hidden = true;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
     tooltip.classList.add("is-visible");
     if (activeDot) activeDot.classList.remove("is-active");
     activeDot = dotEl;
@@ -351,7 +370,7 @@
           item: {
             title: text.title,
             institution: project.institution,
-            dateLabel: formatDate(project.date),
+            dateLabel: formatDate(project.startDate || project.date),
             description: text.description,
             url: project.url,
             images: project.images || [],
@@ -399,7 +418,7 @@
 
   function durationEntries() {
     const projectEntries = PROJECTS.map((p) => ({
-      start: parseDate(p.date),
+      start: parseDate(p.startDate || p.date),
       end: p.endDate ? parseDate(p.endDate) : null,
       isEducation: false
     }));

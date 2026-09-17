@@ -55,17 +55,28 @@ const EDUCATION = [
 const PROJECTS = [
   {
     date: "2023-03",
-    //endDate: "2024-03",
+    institution: "Colegio Parroquial Santa Cruz",
+    es: {
+      title: "Talleres Educativos",
+      description: "Diseño, organizo e imparto talleres de Informática y Robótica Inicial dirigidos a estudiantes de primero a sexto año de Educación Primaria. Planifico actividades prácticas y educativas orientadas al desarrollo del pensamiento computacional, la creatividad y el uso responsable de la tecnología como herramienta de aprendizaje."
+    },
+    en: {
+      title: "Educational Workshops",
+      description: "I design, organize, and deliver introductory Computer Science and Robotics workshops for students from first to sixth grade of primary school. I plan practical and educational activities focused on developing computational thinking, creativity, and the responsible use of technology as a learning tool."
+    }
+  },
+  {
+    date: "2026-08",
     institution: "Colegio Parroquial Santa Cruz",
     images: ["assets/cpsc1.png", "assets/cpsc2.png"],
     url: "https://www.colegioparroquialsantacruz.com/",
     es: {
-      title: "Talleres Educativos",
-      description: "Diseño, organizo e imparto talleres de Informática y Robótica Inicial dirigidos a estudiantes de primero a sexto año de Educación Primaria. Planifico actividades prácticas y educativas orientadas al desarrollo del pensamiento computacional, la creatividad y el uso responsable de la tecnología como herramienta de aprendizaje. Además, desarrollé una plataforma web para gestionar los talleres y centralizar el contenido educativo, facilitando el acceso de los estudiantes al material de estudio y fortaleciendo el proceso de aprendizaje. La plataforma permite reducir el uso de fotocopias, minimizar la pérdida de trabajos y promover una mayor integración de la tecnología en el ámbito educativo."
+      title: "Plataforma Web para Talleres",
+      description: "Desarrollé una plataforma web para gestionar los talleres de Informática y Robótica Inicial y centralizar el contenido educativo, facilitando el acceso de los estudiantes al material de estudio y fortaleciendo el proceso de aprendizaje. La plataforma permite reducir el uso de fotocopias, minimizar la pérdida de trabajos y promover una mayor integración de la tecnología en el ámbito educativo."
     },
     en: {
-      title: "Educational Workshops",
-      description: "I design, organize, and deliver introductory Computer Science and Robotics workshops for students from first to sixth grade of primary school. I plan practical and educational activities focused on developing computational thinking, creativity, and the responsible use of technology as a learning tool. In addition, I developed a web platform to manage the workshops and centralize educational content, making learning materials more accessible to students and supporting the learning process. The platform helps reduce the use of printed materials, minimize the loss of assignments, and promote the integration of technology into the educational environment."
+      title: "Workshop Web Platform",
+      description: "I developed a web platform to manage the Computer Science and Robotics workshops and centralize educational content, making learning materials more accessible to students and supporting the learning process. The platform helps reduce the use of printed materials, minimize the loss of assignments, and promote the integration of technology into the educational environment."
     }
   },
   {
