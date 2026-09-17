@@ -8,6 +8,8 @@
   const tooltipDesc = document.getElementById("tooltip-desc");
   const tooltipLink = document.getElementById("tooltip-link");
   const headerRole = document.getElementById("header-role");
+  const contactText = document.getElementById("contact-text");
+  const contactLink = document.getElementById("contact-link");
   const langToggle = document.getElementById("lang-toggle");
   const lightbox = document.getElementById("lightbox");
   const lightboxContent = document.getElementById("lightbox-content");
@@ -544,6 +546,9 @@
   function applyLanguage() {
     document.documentElement.lang = currentLang;
     headerRole.textContent = UI_TEXT[currentLang].role;
+    contactText.textContent = UI_TEXT[currentLang].contact;
+    contactLink.textContent = UI_TEXT[currentLang].contactCta;
+    contactLink.href = CONTACT_URL;
     langToggle.textContent = currentLang === "es" ? "EN" : "ES";
     langToggle.setAttribute(
       "aria-label",

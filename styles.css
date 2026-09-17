@@ -255,6 +255,37 @@ html, body {
   transform: translateX(-50%) scale(1.08);
 }
 
+.contact {
+  width: calc(100% - 48px);
+  max-width: 900px;
+  margin: 40px auto 0;
+  padding: 0 0 24px;
+  text-align: center;
+}
+
+.contact__text {
+  margin: 0 0 12px;
+  color: var(--muted-color);
+  font-size: 0.9rem;
+}
+
+.contact__link {
+  display: inline-block;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-color);
+  text-decoration: none;
+  border: 1.5px solid var(--line-color);
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.contact__link:hover {
+  background: var(--text-color);
+  color: var(--bg-color);
+}
+
 .h-media__item--video::after {
   content: "▶";
   position: absolute;

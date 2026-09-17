@@ -6,14 +6,20 @@ const UI_TEXT = {
   es: {
     role: "Psicólogo | Analista Programador | Diplomatura en Business Analytics",
     now: "hoy",
-    months: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+    months: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
+    contact: "¿Querés saber más sobre mis proyectos? ¡Contactame!",
+    contactCta: "LinkedIn"
   },
   en: {
     role: "Psychologist | Software Developer | Diploma in Business Analytics",
     now: "today",
-    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    contact: "Want to know more about my projects? Get in touch!",
+    contactCta: "LinkedIn"
   }
 };
+
+const CONTACT_URL = "https://www.linkedin.com/in/renzoxavier/";
 
 
 
@@ -33,12 +39,14 @@ const EDUCATION = [
   },
   {
     year: 2025,
+    date: "2025-10",
     institution: "Universidad de Aconcagua",
     es: { title: "Diplomatura en Business Analytics" },
     en: { title: "Business Analytics Diploma" }
   },
    {
     year: 2025,
+    date: "2025-11",
     institution: "Jovenes a Programar",
     es: { title: "Desarrollo Web" },
     en: { title: "Web Developer" }
@@ -86,15 +94,15 @@ const PROJECTS = [
     url: null,
     es: {
       title: "Analista de Datos",
-      description: "Desarrollo de procesos de extracción, transformación, limpieza y análisis de datos empresariales, aplicando técnicas de Big Data, Inteligencia Artificial y Machine Learning. Procesamiento de grandes volúmenes de información, construcción y evaluación de modelos predictivos, identificación de patrones y generación de insights para apoyar la toma de decisiones basada en datos."
+      description: "Desarrollo de una aplicación  para uso interno de procesos de extracción, transformación, limpieza y análisis de datos aplicando técnicas de Big Data, Inteligencia Artificial y Machine Learning. "
     },
     en: {
       title: "Data Analyst",
-      description: "Developed data extraction, transformation, cleaning, and analysis processes using Machine Learning, Artificial Intelligence, and Big Data technologies. Processed and analyzed large datasets from multiple companies to identify patterns, generate actionable insights, and support data-driven decision-making."
+      description: "Development of an internal application for data extraction, transformation, cleaning, and analysis processes using Big Data, Artificial Intelligence, and Machine Learning techniques."
     }
   },
   {
-    date: "2025-10",
+    date: "2025-09",
     institution: "CTC Salto | Educación Técnica y Profesional",
     url: "https://www.ctcsalto.edu.uy/",
     es: {
