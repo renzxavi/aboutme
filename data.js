@@ -57,7 +57,7 @@ const PROJECTS = [
     date: "2023-03",
     //endDate: "2024-03",
     institution: "Colegio Parroquial Santa Cruz",
-    images: ["assets/cpsc1.png", "assets/cpsc3.png"],
+    images: ["assets/cpsc1.png", "assets/cpsc2.png"],
     url: "https://www.colegioparroquialsantacruz.com/",
     es: {
       title: "Talleres Educativos",
@@ -102,8 +102,7 @@ const COLLABORATIONS = [
   {
     date: "2026-01",
     url: "https://paintingcreatures-a11y.github.io/200mates/",
-    video: "assets/paintingcreatures-a11y.github.io-200mates.mp4",
-    images: ["assets/mates2001.png", "assets/mates2002.png", "assets/mates2003.png"],
+    images: ["assets/mates2001.png", "assets/mates2002.png"],
     es: {
       title: "200mates",
       description: "Proyecto colaborativo desarrollado entre un grupo de amigos con diferentes intereses, conocimientos y perfiles, donde combinamos creatividad, diseño, programación, pruebas y análisis para convertir una idea relacionada con nuestra cultura."
