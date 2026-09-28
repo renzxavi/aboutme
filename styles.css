@@ -236,17 +236,24 @@ html, body {
   transition: transform 0.15s ease, border-color 0.15s ease;
 }
 
-.h-media__item::before {
-  content: "";
+.h-media__links {
   position: absolute;
-  top: -28px;
-  left: 50%;
-  width: 2px;
-  height: 28px;
-  background: var(--muted-color);
-  opacity: 0.4;
-  transform: translateX(-50%);
+  left: 0;
+  width: 100%;
+  overflow: visible;
   pointer-events: none;
+}
+
+.h-media__links line {
+  stroke: var(--muted-color);
+  stroke-width: 2;
+  stroke-opacity: 0.4;
+  transition: stroke 0.15s ease, stroke-opacity 0.15s ease;
+}
+
+.h-media__links line.is-linked {
+  stroke: var(--accent-color);
+  stroke-opacity: 1;
 }
 
 .h-media__item:hover,

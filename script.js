@@ -436,6 +436,40 @@
     return projectEntries.concat(eduEntries).sort((a, b) => a.start - b.start);
   }
 
+  // Separa posiciones que quedan a menos de `gap` entre sí: agrupa las que
+  // chocan y las reparte centradas en su promedio, sin salir de [min, max].
+  // Devuelve las nuevas posiciones en el mismo orden que `xs`.
+  function spread(xs, gap, min, max) {
+    const order = xs.map((_, i) => i).sort((a, b) => xs[a] - xs[b]);
+    const clusters = order.map((i) => ({ ids: [i], sum: xs[i] }));
+
+    function place(c) {
+      const half = ((c.ids.length - 1) * gap) / 2;
+      const center = Math.min(Math.max(c.sum / c.ids.length, min + half), max - half);
+      c.left = center - half;
+      c.right = center + half;
+    }
+
+    clusters.forEach(place);
+    for (let i = 0; i < clusters.length - 1; ) {
+      const a = clusters[i];
+      const b = clusters[i + 1];
+      if (b.left - a.right < gap) {
+        a.ids = a.ids.concat(b.ids);
+        a.sum += b.sum;
+        place(a);
+        clusters.splice(i + 1, 1);
+        i = Math.max(0, i - 1);
+      } else {
+        i++;
+      }
+    }
+
+    const out = new Array(xs.length);
+    clusters.forEach((c) => c.ids.forEach((id, k) => { out[id] = c.left + k * gap; }));
+    return out;
+  }
+
   function buildHorizontal() {
     hTimeline.querySelectorAll(
       ".h-tick, .h-year-label, .timeline__dot, .h-duration-connector, .h-duration-bar, .h-duration-cap, .h-now-label"
@@ -474,8 +508,9 @@
     nowLabel.textContent = UI_TEXT[currentLang].now;
     hTimeline.appendChild(nowLabel);
 
-    const LANE_STEP = 11;
-    durationEntries()
+    const entries = durationEntries();
+    const LANE_STEP = Math.min(11, (hTimeline.clientHeight / 2 - 8) / Math.max(1, entries.length));
+    entries
       .forEach((entry, index) => {
         const startX = xFor(entry.start);
         const endFractionForBar = entry.end !== null ? entry.end : nowYearFraction;
@@ -508,23 +543,76 @@
         hTimeline.appendChild(cap);
       });
 
-    dotItems().forEach(({ fraction, extraClass, item }) => {
+    const items = dotItems();
+    const DOT_GAP = 18;
+    const dotXs = spread(items.map(({ fraction }) => xFor(fraction)), DOT_GAP, padding, width - padding);
+
+    const mediaEntries = [];
+    items.forEach(({ extraClass, item }, i) => {
       const dot = createDot(hTimeline, extraClass, item);
       dot.style.top = "50%";
-      dot.style.left = `${xFor(fraction)}px`;
+      dot.style.left = `${dotXs[i]}px`;
 
       if ((item.images && item.images.length) || item.video) {
-        const square = createMediaSquare(hMedia, item);
-        square.style.left = `${xFor(fraction)}px`;
-        dot.addEventListener("mouseenter", () => square.classList.add("is-linked"));
-        dot.addEventListener("mouseleave", () => square.classList.remove("is-linked"));
-        square.addEventListener("mouseenter", () => {
-          if (!pinned) showTooltip(item, dot);
-        });
-        square.addEventListener("mouseleave", () => {
-          if (!pinned) hideTooltip();
-        });
+        mediaEntries.push({ item, dot, dotX: dotXs[i] });
       }
+    });
+
+    layoutMedia(mediaEntries);
+  }
+
+  // Ubica las miniaturas debajo de la línea sin que se superpongan y las une
+  // a su punto con una línea (las miniaturas pueden quedar corridas del punto).
+  function layoutMedia(entries) {
+    if (!entries.length) return;
+
+    const MEDIA_GAP = 16;
+    const MAX_SIZE = window.innerWidth <= 520 ? 108 : 140;
+    const LINK_HEIGHT = parseFloat(getComputedStyle(hMedia).marginTop) || 36;
+    const mediaWidth = hMedia.clientWidth;
+    const size = Math.min(MAX_SIZE, (mediaWidth - MEDIA_GAP * (entries.length - 1)) / entries.length);
+    const squareXs = spread(entries.map((e) => e.dotX), size + MEDIA_GAP, size / 2, mediaWidth - size / 2);
+
+    hMedia.style.height = `${size}px`;
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const links = document.createElementNS(svgNS, "svg");
+    links.setAttribute("class", "h-media__links");
+    links.style.top = `${-LINK_HEIGHT}px`;
+    links.style.height = `${LINK_HEIGHT}px`;
+    hMedia.appendChild(links);
+
+    entries.forEach(({ item, dot, dotX }, i) => {
+      const square = createMediaSquare(hMedia, item);
+      square.style.left = `${squareXs[i]}px`;
+      square.style.width = `${size}px`;
+      square.style.height = `${size}px`;
+
+      const line = document.createElementNS(svgNS, "line");
+      line.setAttribute("x1", dotX);
+      line.setAttribute("y1", 4);
+      line.setAttribute("x2", squareXs[i]);
+      line.setAttribute("y2", LINK_HEIGHT);
+      links.appendChild(line);
+
+      const link = () => {
+        square.classList.add("is-linked");
+        line.classList.add("is-linked");
+      };
+      const unlink = () => {
+        square.classList.remove("is-linked");
+        line.classList.remove("is-linked");
+      };
+      dot.addEventListener("mouseenter", link);
+      dot.addEventListener("mouseleave", unlink);
+      square.addEventListener("mouseenter", () => {
+        link();
+        if (!pinned) showTooltip(item, dot);
+      });
+      square.addEventListener("mouseleave", () => {
+        unlink();
+        if (!pinned) hideTooltip();
+      });
     });
   }
 
