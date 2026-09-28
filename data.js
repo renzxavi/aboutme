@@ -113,6 +113,21 @@ const PROJECTS = [
       title: "University Teaching",
       description: "Teach the Databases II course and provide academic support in various subjects, as well as tutoring for coursework and thesis projects for students in the Systems Analyst program."
     }
+  },
+  {
+    // TODO: completar datos reales de Polycup
+    date: "2026-09",
+    institution: "Polycup",
+    images: ["assets/polycup1.png", "assets/polycup2.png", "assets/polycup3.png", "assets/polycup4.png", "assets/polycup2.png"],
+    url: "",
+    es: {
+      title: "Polycup",
+      description: "Estudié para ser barista hace algunos años. Antes de eso había estudiado química, así que ya tenía curiosidad por las extracciones, las mezclas y las proporciones.\n\nTodavía preparo café. Pruebo cosas, cambio algo y vuelvo a probar. A veces sale mejor; otras, no tanto.\n\nCon el tiempo, algo quedó claro: el café hecho a solas pierde interés. El sabor no cambia, pero la experiencia sí.\n\nDe ahí surge esta idea: preparar café al mismo tiempo, cada uno desde su lugar, sabiendo que hay alguien al otro lado aprendiendo a preparar su receta favorita.\n\nNo hace falta mucho: café y alguien del otro lado que le dé sentido a todo lo que aprendí en mi curso de barista.\n\nSi la idea te atrae, me encantaría que preparemos café juntos."
+    },
+    en: {
+      title: "Polycup",
+      description: "I trained as a barista a few years ago. Before that I had studied chemistry, so I was already curious about extractions, blends, and ratios.\n\nI still make coffee. I try things, change something, and try again. Sometimes it turns out better; sometimes not so much.\n\nOver time, one thing became clear: coffee made alone loses its appeal. The flavor doesn't change, but the experience does.\n\nThat's where this idea comes from: making coffee at the same time, each from our own place, knowing there's someone on the other side learning to prepare their favorite recipe.\n\nIt doesn't take much: coffee, and someone on the other side who gives meaning to everything I learned in my barista course.\n\nIf the idea appeals to you, I'd love for us to make coffee together."
+    }
   }
 ];
 
