@@ -76,7 +76,7 @@ const PROJECTS = [
   {
     date: "2026-08",
     institution: "Colegio Parroquial Santa Cruz",
-    images: ["assets/cpsc1.png", "assets/cpsc2.png"],
+    images: ["assets/cpsc1.png", "assets/cpsc2.png", "assets/cpsc3.png"],
     url: "https://www.colegioparroquialsantacruz.com/",
     es: {
       title: "Plataforma Web para Talleres",
