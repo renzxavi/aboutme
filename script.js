@@ -229,6 +229,7 @@
     const ytId = item.video ? getYouTubeId(item.video) : null;
     galleryImages = [];
     galleryIndex = 0;
+    let isStory = false;
 
     if (ytId) {
       const iframe = document.createElement("iframe");
@@ -305,11 +306,19 @@
     }
 
     if (item.description) {
-      const desc = document.createElement("p");
+      const paragraphs = item.description.split(/\n{2,}/).filter((text) => text.trim());
+      const desc = document.createElement("div");
       desc.className = "lightbox__description";
-      desc.textContent = item.description;
+      paragraphs.forEach((text) => {
+        const p = document.createElement("p");
+        p.textContent = text;
+        desc.appendChild(p);
+      });
       lightboxContent.appendChild(desc);
+      isStory = paragraphs.length > 1;
     }
+
+    lightboxContent.classList.toggle("lightbox__content--story", isStory);
 
     lightbox.classList.add("is-visible");
   }
