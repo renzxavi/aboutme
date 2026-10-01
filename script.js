@@ -218,7 +218,11 @@
     const total = galleryImages.length;
     galleryIndex = (index + total) % total;
     const img = lightboxContent.querySelector(".lightbox__carousel-img");
-    if (img) img.src = galleryImages[galleryIndex];
+    if (img) {
+      img.classList.add("is-loading");
+      img.onload = () => img.classList.remove("is-loading");
+      img.src = galleryImages[galleryIndex];
+    }
     lightboxContent.querySelectorAll(".lightbox__dot").forEach((dot, i) => {
       dot.classList.toggle("is-active", i === galleryIndex);
     });
@@ -229,7 +233,6 @@
     const ytId = item.video ? getYouTubeId(item.video) : null;
     galleryImages = [];
     galleryIndex = 0;
-    let isStory = false;
 
     if (ytId) {
       const iframe = document.createElement("iframe");
@@ -305,32 +308,34 @@
       }
     }
 
-    if (item.description) {
-      const paragraphs = item.description.split(/\n{2,}/).filter((text) => text.trim());
-      const desc = document.createElement("div");
-      desc.className = "lightbox__description";
-      paragraphs.forEach((text) => {
-        const p = document.createElement("p");
-        p.textContent = text;
-        desc.appendChild(p);
-      });
-      lightboxContent.appendChild(desc);
-      isStory = paragraphs.length > 1;
-    }
-
-    lightboxContent.classList.toggle("lightbox__content--story", isStory);
-
+    hideTooltip();
     lightbox.classList.add("is-visible");
+    document.body.classList.add("has-lightbox");
   }
 
   function closeLightbox() {
     lightbox.classList.remove("is-visible");
+    document.body.classList.remove("has-lightbox");
     lightboxContent.innerHTML = "";
   }
 
+  // Swipe horizontal para cambiar de imagen en pantallas táctiles.
+  let touchStartX = null;
+  lightbox.addEventListener("touchstart", (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  lightbox.addEventListener("touchend", (e) => {
+    if (touchStartX === null || galleryImages.length < 2) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    touchStartX = null;
+    if (Math.abs(dx) > 40) showGalleryIndex(galleryIndex + (dx < 0 ? 1 : -1));
+  });
+
   lightboxClose.addEventListener("click", closeLightbox);
   lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) closeLightbox();
+    if (e.target === lightbox || e.target === lightboxContent || e.target.classList.contains("lightbox__carousel")) {
+      closeLightbox();
+    }
   });
   document.addEventListener("keydown", (e) => {
     if (!lightbox.classList.contains("is-visible")) return;
