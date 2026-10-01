@@ -115,7 +115,6 @@ const PROJECTS = [
     }
   },
   {
-    // TODO: completar datos reales de Polycup
     date: "2026-09",
     institution: "Polycup",
     images: ["assets/polycup1.png", "assets/polycup2.png", "assets/polycup3.png", "assets/polycup4.png"],
